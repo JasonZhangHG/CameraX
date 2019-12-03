@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">CameraX</string>
+    <string name="start_recording">开始录像</string>
+    <string name="stop_recording">停止录像</string>
+</resources>
