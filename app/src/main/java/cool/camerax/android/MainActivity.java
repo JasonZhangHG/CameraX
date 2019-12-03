@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.CameraX;
+import androidx.camera.core.FlashMode;
 import androidx.camera.core.ImageCapture;
 import androidx.camera.core.VideoCapture;
 import androidx.camera.view.CameraView;
@@ -27,8 +28,10 @@ public class MainActivity extends AppCompatActivity {
     private Button mTakePicView;
     private Button mStartRecordingView;
     private Button mSwitchCameraView;
+    private Button mSwitchFlashView;
     private ImageView mShowPicView;
     private VideoView mShowVideoView;
+    private int mClickFlashCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +43,14 @@ public class MainActivity extends AppCompatActivity {
         mStartRecordingView = findViewById(R.id.btn_start_recording);
         mShowVideoView = findViewById(R.id.vv_show_recording);
         mSwitchCameraView = findViewById(R.id.btn_switch_camera);
-        //我们可以用 CameraView 的 bindToLifeCycle 方法将这个 View 与当前组件的生命周期绑定。
+        mSwitchFlashView = findViewById(R.id.btn_switch_flash);
+
         mCameraView.bindToLifecycle(this);
 
         initTakePic();
         initStartRecording();
         initSwitchCamera();
+        initSwitchFlashView();
     }
 
     @Override
@@ -54,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
         CameraX.unbindAll();
     }
 
-    //拍照
     public void initTakePic() {
         mTakePicView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    //录像
     public void initStartRecording() {
         mStartRecordingView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,7 +142,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void initSwitchCamera() {
-        //切换摄像头
         mSwitchCameraView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -155,6 +157,36 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     mCameraView.setCameraLensFacing(CameraX.LensFacing.FRONT);
                 }
+            }
+        });
+    }
+
+    public void initSwitchFlashView() {
+        mSwitchFlashView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mCameraView == null) {
+                    return;
+                }
+
+                int position = mClickFlashCount % 3;
+                switch (position) {
+                    case 0:
+                        mSwitchFlashView.setText(ResourceUtil.getString(R.string.start_flash));
+                        mCameraView.setFlash(FlashMode.ON);
+                        break;
+                    case 1:
+                        mSwitchFlashView.setText(ResourceUtil.getString(R.string.auto_flash));
+                        mCameraView.setFlash(FlashMode.AUTO);
+                        break;
+                    case 2:
+                        mSwitchFlashView.setText(ResourceUtil.getString(R.string.stop_flash));
+                        mCameraView.setFlash(FlashMode.OFF);
+                        break;
+                    default:
+                        break;
+                }
+                mClickFlashCount++;
             }
         });
     }
