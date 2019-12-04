@@ -7,10 +7,10 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
     
-    <androidx.camera.view.CameraView
-        android:id="@+id/view_camera"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+    <!--    <androidx.camera.view.CameraView-->
+    <!--        android:id="@+id/view_camera"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent" />-->
     
     <Button
         android:id="@+id/btn_take_pic"
@@ -64,5 +64,23 @@
         android:layout_width="100dp"
         android:layout_height="150dp"
         android:visibility="gone" />
+    
+    <FrameLayout
+        android:id="@+id/rl_local_rvc_video"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true">
+    
+    </FrameLayout>
+    
+    <RelativeLayout
+        android:id="@+id/rl_show_rvc_video"
+        android:layout_width="100dp"
+        android:layout_height="150dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true">
+    
+    </RelativeLayout>
 
 </RelativeLayout>
